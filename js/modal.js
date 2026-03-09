@@ -3,7 +3,7 @@ const modal = () => {
     const modalBtn = document.querySelector('.icon_search')
     const modalClose = modal.querySelector('.search-close-switch') //document.querySelector('.search-close-switch')
 
-    console.log(modalClose);
+    //console.log(modalClose);
 
     modalBtn.addEventListener('click', () => {
         //console.log('click')

@@ -3,7 +3,7 @@ const preloader = () => {
 
     const preloader = document.querySelector('.preloader')
 
-    console.log(preloader)
+    //console.log(preloader)
 
     preloader.classList.add('active')
 
