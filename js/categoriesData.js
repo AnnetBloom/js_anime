@@ -1,4 +1,4 @@
-const mainData = () => {
+const categoriesData = () => {
 
     const preloader = document.querySelector('.preloader')
 
@@ -16,15 +16,15 @@ const mainData = () => {
     }
 
     const renderAnimeList = (array, ganres) => {
-        const wrapper = document.querySelector('.product .col-lg-8')
-       // console.log(wrapper);
+        const wrapper = document.querySelector('.product-page .col-lg-8')
+        // console.log(wrapper);
 
         //wrapper.innerHTML = ''
 
         ganres.forEach((ganre) => {
             const productBlock = document.createElement('div')
             const listBlock = document.createElement('div')
-            const list = array.filter(item => item.ganre === ganre)
+            const list = array.filter(item => item.tags.includes(ganre))
             console.log(list);
 
             listBlock.classList.add('row')
@@ -53,8 +53,8 @@ const mainData = () => {
                         <li>${tag}</li>
                     `)
                 })
-               //console.log(ulBlock)
-               //console.dir(ulBlock)
+                //console.log(ulBlock)
+                //console.dir(ulBlock)
 
                 listBlock.insertAdjacentHTML('beforeend', `
                     <div class="col-lg-4 col-md-6 col-sm-6">
@@ -77,7 +77,7 @@ const mainData = () => {
             wrapper.append(productBlock)
 
             wrapper.querySelectorAll('.set-bg').forEach((elem) => {
-                elem.style.backgroundImage = `url(${elem.dataset.setbg})` 
+                elem.style.backgroundImage = `url(${elem.dataset.setbg})`
             })
             //console.log(ganre);
         })
@@ -114,13 +114,13 @@ const mainData = () => {
         })
 
         wrapper.querySelectorAll('.set-bg').forEach((elem) => {
-            elem.style.backgroundImage = `url(${elem.dataset.setbg})` 
+            elem.style.backgroundImage = `url(${elem.dataset.setbg})`
         })
-       // console.log(array);
+        // console.log(array);
     }
 
     fetch('https://test-b263e-default-rtdb.firebaseio.com/anime.json')
-    //fetch('./db.json')
+        //fetch('./db.json')
         .then((response) => response.json())
         /*.then((response) => {
             return response.json()
@@ -128,20 +128,29 @@ const mainData = () => {
         .then((data) => {
 
             const ganres = new Set()
+            const ganreParams = new URLSearchParams(window.location.search).get('ganre')
+
+
+            //console.log(window.location.search);
 
             data.forEach((item) => {
                 ganres.add(item.ganre)
             })
 
             renderTopAnime(data.sort((a, b) => b.views - a.views).slice(0, 5))
-            renderAnimeList(data, ganres)
+            if (ganreParams) {
+                renderAnimeList(data, [ganreParams])
+            } else {
+                renderAnimeList(data, ganres)
+            }
+            
             renderGanreList(ganres)
 
             //console.log(ganres)
 
             //console.log(data.sort((a, b) => b.views - a.views).slice(0, 5));
-           // console.log(data.anime);
+            // console.log(data.anime);
         })
 }
 
-mainData()
+categoriesData()
